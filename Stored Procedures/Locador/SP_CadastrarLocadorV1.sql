@@ -1,20 +1,20 @@
 USE DB_LOKANDO
 GO
-/****** Object:  StoredProcedure [dbo].[CadastrarLocadorV1]    Script Date: 07/07/2019 13:01:16 ******/
+/****** Object:  StoredProcedure [dbo].[CadastrarLocadorV1]    Script Date: 07/01/2020 08:23:16 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 -- =============================================
 -- Author:		<Jacques de Lassau>
--- Create date: <07/07/2019>
+-- Create date: <07/01/2020>
 -- Description:	<Inclusão de Novo Locador>
 -- =============================================
 CREATE PROCEDURE [dbo].[CadastrarLocadorV1]			
 	@LCEMAILLOK varchar (100),
 	@LCRZSLOK varchar(100),
 	@LCFANTLOK varchar(100),
-	@LCPFPJLOK varchar(14),
+	@LCPFPJLOK varchar(18),
 	@LCNMLOK varchar(100),
 	@LCLOGLOK varchar(100),
 	@LCCIDLOK varchar(100),
