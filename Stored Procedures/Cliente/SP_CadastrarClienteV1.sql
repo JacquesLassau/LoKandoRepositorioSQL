@@ -1,10 +1,13 @@
-USE DB_LOKANDO
+USE [DB_LOKANDO]
 GO
-/****** Object:  StoredProcedure [dbo].[SP_CadastrarClienteV1]    Script Date: 09/07/2019 07:21:16 ******/
+
+/****** Object:  StoredProcedure [dbo].[SP_CadastrarClienteV1]    Script Date: 15/04/2020 08:45:57 ******/
 SET ANSI_NULLS ON
 GO
+
 SET QUOTED_IDENTIFIER ON
 GO
+
 -- =============================================
 -- Author:		<Jacques de Lassau>
 -- Create date: <07/07/2019>
@@ -19,6 +22,7 @@ CREATE PROCEDURE [dbo].[SP_CadastrarClienteV1]
 	@CLEMAILLOK varchar(100),
 	@CLNMLOK varchar(100),
 	@CLLOGLOK varchar(100),
+	@CLBAIRROLOK varchar(100),
 	@CLCIDLOK varchar(100),
 	@CLUFLOK varchar(2),
 	@CLCEPLOK varchar(9),
@@ -49,7 +53,7 @@ BEGIN
 	ELSE
 	BEGIN
 		declare @IDUSUCLI int = (Select USIDUSU From DB_LOKANDO..TBUSULOK with(nolock) where USEMAILLOK = @CLEMAILLOK);		
-		Insert Into TBCLIENTLOK Values (@IDUSUCLI, @CLNOMELOK, @CLHABILLOK, @CLCPFLOK, @CLRGLOK, @CLNASCLOK, @CLEMAILLOK, @CLNMLOK, @CLLOGLOK, @CLCIDLOK, @CLUFLOK, @CLCEPLOK, @CLSITLOK, GETDATE());	
+		Insert Into TBCLIENTLOK Values (@IDUSUCLI, @CLNOMELOK, @CLHABILLOK, @CLCPFLOK, @CLRGLOK, @CLNASCLOK, @CLEMAILLOK, @CLNMLOK, @CLLOGLOK, @CLBAIRROLOK, @CLCIDLOK, @CLUFLOK, @CLCEPLOK, @CLSITLOK, GETDATE());	
 		PRINT 'Cliente foi incluído com sucesso.'
 		COMMIT
 	END	

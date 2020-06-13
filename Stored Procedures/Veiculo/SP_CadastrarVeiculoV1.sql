@@ -12,7 +12,7 @@ GO
 -- Author:		<Jacques de Lassau>
 -- Create date: <10/02/2020>
 -- Description:	<Inclusão de Novo Veiculo>
--- =============================================
+-- ============================================= 
 CREATE PROCEDURE [dbo].[SP_CadastrarVeiculoV1]	
 	@VCCODLCDLOK int,
 	@VCTPLOK varchar(100),
@@ -22,6 +22,7 @@ CREATE PROCEDURE [dbo].[SP_CadastrarVeiculoV1]
 	@VCRNVLOK varchar(100),
 	@VCCOMBLOK varchar(100),
 	@VCCORLOK varchar(100),
+	@VCANOLOK varchar(4),
 	@VCVLRDIA decimal(9,2),	
 	@VCSITLOK char(1)
 AS
@@ -44,7 +45,7 @@ BEGIN
 	END
 	ELSE
 	BEGIN		
-		Insert Into TBVEICLOK Values (@VCCODLCDLOK, @VCTPLOK, @VCMARCALOK, @VCMODELOK, @VCPLACALOK, @VCRNVLOK, @VCCOMBLOK, @VCCORLOK, @VCVLRDIA, @VCSITLOK, GETDATE());
+		Insert Into TBVEICLOK Values (@VCCODLCDLOK, @VCTPLOK, @VCMARCALOK, @VCMODELOK, @VCPLACALOK, @VCRNVLOK, @VCCOMBLOK, @VCCORLOK, @VCANOLOK, @VCVLRDIA, @VCSITLOK, GETDATE());
 		PRINT 'Veiculo foi incluído com sucesso.'
 		COMMIT
 	END	

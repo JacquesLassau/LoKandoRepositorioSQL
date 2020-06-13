@@ -13,6 +13,7 @@ GO
 CREATE PROCEDURE [dbo].[SP_CadastrarUsuarioV1]		
 	@USEMAILLOK varchar(100),
 	@USSENHALOK varchar(100),
+	@USTPUSULOK char(1),
 	@USSITLOK char(1)		
 AS
 BEGIN 
@@ -24,7 +25,7 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		Insert Into DB_LOKANDO..TBUSULOK Values (@USEMAILLOK, @USSENHALOK, @USSITLOK, GETDATE());
+		Insert Into DB_LOKANDO..TBUSULOK Values (@USEMAILLOK, @USSENHALOK, @USTPUSULOK, @USSITLOK, GETDATE());
 		PRINT 'Usuário foi incluído com sucesso.'
 		COMMIT
 	END
