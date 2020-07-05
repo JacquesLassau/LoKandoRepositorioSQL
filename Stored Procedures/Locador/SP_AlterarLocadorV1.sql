@@ -34,12 +34,12 @@ BEGIN
 		PRINT 'Código do locador inválido. Não foi possível realizar a alteração.'
 		ROLLBACK
 	END
-	ELSE IF NOT EXISTS (Select LCUFLOK From DB_LOKANDO..TBLOCLOK With(nolock) Where LEN(@LCUFLOK) = 2)
+	ELSE IF EXISTS (Select LCUFLOK From DB_LOKANDO..TBLOCLOK With(nolock) Where LEN(@LCUFLOK) <> 2)
 	BEGIN
 		PRINT 'Estado deve ser preenchido com duas letras. Locador não foi alterado.'
 		ROLLBACK
 	END				
-	ELSE IF NOT EXISTS (Select LCCEPLOK From DB_LOKANDO..TBLOCLOK With(nolock) Where LEN(@LCCEPLOK) = 9) 
+	ELSE IF EXISTS (Select LCCEPLOK From DB_LOKANDO..TBLOCLOK With(nolock) Where LEN(@LCCEPLOK) <> 9) 
 	BEGIN
 		PRINT 'CEP deve ser preenchido no formato correto. Locador não foi alterado.'
 		ROLLBACK

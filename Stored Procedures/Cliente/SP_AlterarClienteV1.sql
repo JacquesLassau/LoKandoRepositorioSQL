@@ -8,7 +8,7 @@ GO
 -- =============================================
 -- Author:		<Jacques de Lassau>
 -- Create date: <16/07/2019>
--- Description:	<Altera√ß√£o de Cliente>
+-- Description:	<AlteraÁ„o de Cliente>
 -- =============================================
 CREATE PROCEDURE [dbo].[SP_AlterarClienteV1] 
 	@CLIDCLLOK int, 
@@ -27,17 +27,17 @@ BEGIN
 	BEGIN TRAN 
 	IF NOT EXISTS (Select CLIDCLLOK From DB_LOKANDO..TBCLIENTLOK With(nolock) Where CLIDCLLOK = @CLIDCLLOK)
 	BEGIN			
-		PRINT 'C√≥digo do cliente inv√°lido. N√£o foi poss√≠vel realizar a altera√ß√£o.'
+		PRINT 'CÛdigo do cliente inv·lido. N„o foi possÌvel realizar a alteraÁ„o.'
 		ROLLBACK
 	END
-	ELSE IF EXISTS (Select CLUFLOK From DB_LOKANDO..TBCLIENTLOK With(nolock) Where LEN(@CLUFLOK) = 2)
+	ELSE IF EXISTS (Select CLUFLOK From DB_LOKANDO..TBCLIENTLOK With(nolock) Where LEN(@CLUFLOK) <> 2)
 	BEGIN
-		PRINT 'Estado deve ser preenchido com duas letras. Cliente n√£o foi alterado.'
+		PRINT 'Estado deve ser preenchido com duas letras. Cliente n„o foi alterado.'
 		ROLLBACK
 	END				
-	ELSE IF EXISTS (Select CLCEPLOK From DB_LOKANDO..TBCLIENTLOK With(nolock) Where LEN(@CLCEPLOK) = 9) 
+	ELSE IF EXISTS (Select CLCEPLOK From DB_LOKANDO..TBCLIENTLOK With(nolock) Where LEN(@CLCEPLOK) <> 9) 
 	BEGIN
-		PRINT 'CEP deve ser preenchido no formato correto. Cliente n√£o foi alterado.'
+		PRINT 'CEP deve ser preenchido no formato correto. Cliente n„o foi alterado.'
 		ROLLBACK
 	END
 	ELSE
