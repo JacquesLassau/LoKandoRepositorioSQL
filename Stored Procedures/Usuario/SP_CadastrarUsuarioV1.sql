@@ -1,4 +1,4 @@
-USE DB_LOKANDO 
+USE DBLOKANDO 
 GO
 /****** Object:  StoredProcedure [dbo].[SP_CadastrarUsuarioV1]    Script Date: 07/07/2019 12:41:16 ******/
 SET ANSI_NULLS ON
@@ -18,14 +18,14 @@ CREATE PROCEDURE [dbo].[SP_CadastrarUsuarioV1]
 AS
 BEGIN 
 	BEGIN TRAN
-	IF EXISTS (Select USEMAILLOK From DB_LOKANDO..TBUSULOK With(nolock) Where USEMAILLOK = @USEMAILLOK)
+	IF EXISTS (Select USEMAILLOK From DBLOKANDO..TBUSULOK With(nolock) Where USEMAILLOK = @USEMAILLOK)
 	BEGIN			
 		PRINT 'Já existe um usuário vinculado a este e-mail. Usuário não foi incluído.'
 		ROLLBACK
 	END
 	ELSE
 	BEGIN
-		Insert Into DB_LOKANDO..TBUSULOK Values (@USEMAILLOK, @USSENHALOK, @USTPUSULOK, @USSITLOK, GETDATE());
+		Insert Into DBLOKANDO..TBUSULOK Values (@USEMAILLOK, @USSENHALOK, @USTPUSULOK, @USSITLOK, GETDATE());
 		PRINT 'Usuário foi incluído com sucesso.'
 		COMMIT
 	END

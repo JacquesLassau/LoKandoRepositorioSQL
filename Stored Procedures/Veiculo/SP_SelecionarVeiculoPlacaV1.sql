@@ -1,4 +1,4 @@
-USE [DB_LOKANDO]
+USE [DBLOKANDO]
 GO
 
 /****** Object:  StoredProcedure [dbo].[SP_SelecionarVeiculoPlacaV1]    Script Date: 11/02/2020 08:00:57 ******/
@@ -18,14 +18,14 @@ CREATE PROCEDURE [dbo].[SP_SelecionarVeiculoPlacaV1]
 AS
 BEGIN
 	BEGIN TRAN 
-	IF NOT EXISTS (Select VCPLACALOK From DB_LOKANDO..TBVEICLOK With(nolock) Where VCPLACALOK = @VCPLACALOK And VCSITLOK <> 'I')
+	IF NOT EXISTS (Select VCPLACALOK From DBLOKANDO..TBVEICLOK With(nolock) Where VCPLACALOK = @VCPLACALOK And VCSITLOK <> 'I')
 	BEGIN			
 		PRINT 'Placa do veículo inválida. Não foi possível realizar a consulta.'
 		ROLLBACK
 	END	
 	ELSE
 	BEGIN
-		Select * from  DB_LOKANDO..TBVEICLOK With(nolock) Where VCPLACALOK = @VCPLACALOK;
+		Select * from  DBLOKANDO..TBVEICLOK With(nolock) Where VCPLACALOK = @VCPLACALOK;
 		PRINT 'placa selecionada com sucesso.'
 		COMMIT
 	END

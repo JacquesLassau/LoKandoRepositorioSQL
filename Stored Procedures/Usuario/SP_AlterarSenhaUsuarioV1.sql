@@ -1,4 +1,4 @@
-USE [DB_LOKANDO]
+USE [DBLOKANDO]
 GO
 /****** Object:  StoredProcedure [dbo].[SP_AlterarSenhaUsuarioV1]    Script Date: 13/07/2020 14:32:53 ******/
 SET ANSI_NULLS ON
@@ -17,7 +17,7 @@ CREATE PROCEDURE [dbo].[SP_AlterarSenhaUsuarioV1]
 AS
 BEGIN
 	BEGIN TRAN	
-	IF NOT EXISTS (Select USEMAILLOK From DB_LOKANDO..TBUSULOK With(nolock) Where USEMAILLOK = @EmailUsuario And USSENHALOK = @SenhaUsuario And USSITLOK <> 'I')
+	IF NOT EXISTS (Select USEMAILLOK From DBLOKANDO..TBUSULOK With(nolock) Where USEMAILLOK = @EmailUsuario And USSENHALOK = @SenhaUsuario And USSITLOK <> 'I')
 	BEGIN			
 		PRINT 'Acesso Negado! Não é possível alterar um usuário sem e-mail no sistema!'
 		ROLLBACK

@@ -1,4 +1,4 @@
-USE [DB_LOKANDO]
+USE [DBLOKANDO]
 GO
 /****** Object:  StoredProcedure [dbo].[SP_SelecionarAtendenteIdV1]    Script Date: 01/08/2019 07:16:18 ******/
 SET ANSI_NULLS ON
@@ -15,14 +15,14 @@ CREATE PROCEDURE [dbo].[SP_SelecionarAtendenteIdV1]
 AS
 BEGIN
 	BEGIN TRAN 
-	IF NOT EXISTS (Select ATIDATLOK From DB_LOKANDO..TBATNDLOK With(nolock) Where ATIDATLOK = @ATIDATLOK And ATSITATLOK <> 'I')
+	IF NOT EXISTS (Select ATIDATLOK From DBLOKANDO..TBATNDLOK With(nolock) Where ATIDATLOK = @ATIDATLOK And ATSITATLOK <> 'I')
 	BEGIN			
 		PRINT 'Código do atendente inválido. Não foi possível realizar a consulta.'
 		ROLLBACK
 	END	
 	ELSE
 	BEGIN
-		Select * from  DB_LOKANDO..TBATNDLOK With(nolock) Where ATIDATLOK = @ATIDATLOK;
+		Select * from  DBLOKANDO..TBATNDLOK With(nolock) Where ATIDATLOK = @ATIDATLOK;
 		PRINT 'Atendente foi selecionado com sucesso.'
 		COMMIT
 	END

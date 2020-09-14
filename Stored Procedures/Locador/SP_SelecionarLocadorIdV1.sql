@@ -1,4 +1,4 @@
-USE [DB_LOKANDO]
+USE [DBLOKANDO]
 GO
 
 /****** Object:  StoredProcedure [dbo].[SP_SelecionarLocadorIdV1]    Script Date: 28/01/2020 07:40:50 ******/
@@ -19,14 +19,14 @@ CREATE PROCEDURE [dbo].[SP_SelecionarLocadorIdV1]
 AS
 BEGIN
 	BEGIN TRAN 
-	IF NOT EXISTS (Select LCIDLOCLOK From DB_LOKANDO..TBLOCLOK With(nolock) Where LCIDLOCLOK = @LCIDLOCLOK And LCSITLOK <> 'I')
+	IF NOT EXISTS (Select LCIDLOCLOK From DBLOKANDO..TBLOCLOK With(nolock) Where LCIDLOCLOK = @LCIDLOCLOK And LCSITLOK <> 'I')
 	BEGIN			
 		PRINT 'Código do locador inválido. Não foi possível realizar a consulta.'
 		ROLLBACK
 	END	
 	ELSE
 	BEGIN
-		Select * from  DB_LOKANDO..TBLOCLOK With(nolock) Where LCIDLOCLOK = @LCIDLOCLOK;
+		Select * from  DBLOKANDO..TBLOCLOK With(nolock) Where LCIDLOCLOK = @LCIDLOCLOK;
 		PRINT 'Locador foi selecionado com sucesso.'
 		COMMIT
 	END

@@ -1,4 +1,4 @@
-USE [DB_LOKANDO]
+USE [DBLOKANDO]
 GO
 /****** Object:  StoredProcedure [dbo].[SP_ExcluirClienteV1]    Script Date: 04/08/2019 17:04:58 ******/
 SET ANSI_NULLS ON
@@ -15,16 +15,16 @@ CREATE PROCEDURE [dbo].[SP_ExcluirClienteV1]
 AS
 BEGIN
 	BEGIN TRAN 
-	IF NOT EXISTS (Select CLIDCLLOK From DB_LOKANDO..TBCLIENTLOK With(nolock) Where CLIDCLLOK = @CLIDCLLOK)
+	IF NOT EXISTS (Select CLIDCLLOK From DBLOKANDO..TBCLIENTLOK With(nolock) Where CLIDCLLOK = @CLIDCLLOK)
 	BEGIN			
 		PRINT 'Código do cliente inválido. Não foi possível excluir o cliente.'
 		ROLLBACK
 	END	
 	ELSE
 	BEGIN
-		declare @IDUSUCLI int = (Select CLCODUSLOK From DB_LOKANDO..TBCLIENTLOK With(nolock) Where CLIDCLLOK = @CLIDCLLOK);
-		Update DB_LOKANDO..TBCLIENTLOK Set CLSITLOK = 'I', CLHRREG = GETDATE() Where CLIDCLLOK = @CLIDCLLOK;
-		Update DB_LOKANDO..TBUSULOK Set USSITLOK = 'I', USUHRREG = GETDATE() Where USIDUSU = @IDUSUCLI;
+		declare @IDUSUCLI int = (Select CLCODUSLOK From DBLOKANDO..TBCLIENTLOK With(nolock) Where CLIDCLLOK = @CLIDCLLOK);
+		Update DBLOKANDO..TBCLIENTLOK Set CLSITLOK = 'I', CLHRREG = GETDATE() Where CLIDCLLOK = @CLIDCLLOK;
+		Update DBLOKANDO..TBUSULOK Set USSITLOK = 'I', USUHRREG = GETDATE() Where USIDUSU = @IDUSUCLI;
 		PRINT 'Cliente foi excluído com sucesso.'
 		COMMIT
 	END

@@ -1,4 +1,4 @@
-USE [DB_LOKANDO]
+USE [DBLOKANDO]
 GO
 
 /****** Object:  StoredProcedure [dbo].[SP_SelecionarVeiculoRenavamV1]    Script Date: 17/02/2020 08:05:25 ******/
@@ -19,14 +19,14 @@ CREATE PROCEDURE [dbo].[SP_SelecionarVeiculoRenavamV1]
 AS
 BEGIN
 	BEGIN TRAN 
-	IF NOT EXISTS (Select VCRNVLOK From DB_LOKANDO..TBVEICLOK With(nolock) Where VCRNVLOK = @VCRNVLOK And VCSITLOK <> 'I')
+	IF NOT EXISTS (Select VCRNVLOK From DBLOKANDO..TBVEICLOK With(nolock) Where VCRNVLOK = @VCRNVLOK And VCSITLOK <> 'I')
 	BEGIN			
 		PRINT 'Renavam do veículo inválido. Não foi possível realizar a consulta.'
 		ROLLBACK
 	END	
 	ELSE
 	BEGIN
-		Select * from  DB_LOKANDO..TBVEICLOK With(nolock) Where VCRNVLOK = @VCRNVLOK;
+		Select * from  DBLOKANDO..TBVEICLOK With(nolock) Where VCRNVLOK = @VCRNVLOK;
 		PRINT 'Renavam selecionada com sucesso.'
 		COMMIT
 	END

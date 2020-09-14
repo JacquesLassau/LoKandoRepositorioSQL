@@ -1,4 +1,4 @@
-USE [DB_LOKANDO]
+USE [DBLOKANDO]
 GO
 /****** Object:  StoredProcedure [dbo].[SP_ExcluirAtendenteV1]    Script Date: 01/08/2019 08:04:58 ******/
 SET ANSI_NULLS ON
@@ -15,16 +15,16 @@ CREATE PROCEDURE [dbo].[SP_ExcluirAtendenteV1]
 AS
 BEGIN
 	BEGIN TRAN 
-	IF NOT EXISTS (Select ATIDATLOK From DB_LOKANDO..TBATNDLOK With(nolock) Where ATIDATLOK = @ATIDATLOK)
+	IF NOT EXISTS (Select ATIDATLOK From DBLOKANDO..TBATNDLOK With(nolock) Where ATIDATLOK = @ATIDATLOK)
 	BEGIN			
 		PRINT 'Código do atendente inválido. Não foi possível excluir o atendente.'
 		ROLLBACK
 	END	
 	ELSE
 	BEGIN
-		declare @IDUSUATEND int = (Select ATUSUATLOK From DB_LOKANDO..TBATNDLOK With(nolock) Where ATIDATLOK = @ATIDATLOK);
-		Update DB_LOKANDO..TBATNDLOK Set ATSITATLOK = 'I', ATHRREG = GETDATE() Where ATIDATLOK = @ATIDATLOK;
-		Update DB_LOKANDO..TBUSULOK Set USSITLOK = 'I', USUHRREG = GETDATE() Where USIDUSU = @IDUSUATEND;
+		declare @IDUSUATEND int = (Select ATUSUATLOK From DBLOKANDO..TBATNDLOK With(nolock) Where ATIDATLOK = @ATIDATLOK);
+		Update DBLOKANDO..TBATNDLOK Set ATSITATLOK = 'I', ATHRREG = GETDATE() Where ATIDATLOK = @ATIDATLOK;
+		Update DBLOKANDO..TBUSULOK Set USSITLOK = 'I', USUHRREG = GETDATE() Where USIDUSU = @IDUSUATEND;
 		PRINT 'Atendente foi excluído com sucesso.'
 		COMMIT
 	END

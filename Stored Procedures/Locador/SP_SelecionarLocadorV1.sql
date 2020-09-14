@@ -1,4 +1,4 @@
-USE [DB_LOKANDO]
+USE [DBLOKANDO]
 GO
 
 /****** Object:  StoredProcedure [dbo].[SP_ListarClienteV1]    Script Date: 28/01/2020 08:23:21 ******/
@@ -17,14 +17,14 @@ CREATE PROCEDURE [dbo].[SP_ListarLocadorV1]
 AS
 BEGIN
 	BEGIN TRAN 
-	IF NOT EXISTS (Select * From DB_LOKANDO..TBLOCLOK)
+	IF NOT EXISTS (Select * From DBLOKANDO..TBLOCLOK)
 	BEGIN			
 		PRINT 'Não foi possível listar locadores. Não existe nenhum registro na base de dados.'
 		ROLLBACK
 	END	
 	ELSE
 	BEGIN
-		Select * From DB_LOKANDO..TBLOCLOK Where LCSITLOK <> 'I';
+		Select * From DBLOKANDO..TBLOCLOK Where LCSITLOK <> 'I';
 		COMMIT
 	END
 END

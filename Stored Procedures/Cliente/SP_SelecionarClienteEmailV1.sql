@@ -1,4 +1,4 @@
-USE [DB_LOKANDO]
+USE [DBLOKANDO]
 GO
 /****** Object:  StoredProcedure [dbo].[SP_SelecionarClienteEmailV1]    Script Date: 01/08/2019 07:16:18 ******/
 SET ANSI_NULLS ON
@@ -15,14 +15,14 @@ CREATE PROCEDURE [dbo].[SP_SelecionarClienteEmailV1]
 AS
 BEGIN
 	BEGIN TRAN 
-	IF NOT EXISTS (Select CLEMAILLOK From DB_LOKANDO..TBCLIENTLOK With(nolock) Where CLEMAILLOK = @CLEMAILLOK And CLSITLOK <> 'I')
+	IF NOT EXISTS (Select CLEMAILLOK From DBLOKANDO..TBCLIENTLOK With(nolock) Where CLEMAILLOK = @CLEMAILLOK And CLSITLOK <> 'I')
 	BEGIN			
 		PRINT 'E-mail do cliente inválido. Não foi possível realizar a consulta.'
 		ROLLBACK
 	END	
 	ELSE
 	BEGIN
-		Select * from  DB_LOKANDO..TBCLIENTLOK With(nolock) Where CLEMAILLOK = @CLEMAILLOK;
+		Select * from  DBLOKANDO..TBCLIENTLOK With(nolock) Where CLEMAILLOK = @CLEMAILLOK;
 		PRINT 'Cliente foi selecionado com sucesso.'
 		COMMIT
 	END

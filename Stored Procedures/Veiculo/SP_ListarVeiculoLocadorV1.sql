@@ -1,4 +1,4 @@
-USE [DB_LOKANDO]
+USE [DBLOKANDO]
 GO
 
 /****** Object:  StoredProcedure [dbo].[SP_ListarVeiculoLocadorV1]    Script Date: 24/02/2020 08:59:29 ******/
@@ -18,14 +18,14 @@ CREATE PROCEDURE [dbo].[SP_ListarVeiculoLocadorV1]
 AS
 BEGIN
 	BEGIN TRAN 
-	IF NOT EXISTS (Select * From DB_LOKANDO..TBVEICLOK)
+	IF NOT EXISTS (Select * From DBLOKANDO..TBVEICLOK)
 	BEGIN			
 		PRINT 'Não foi possível listar veículos. Não existe nenhum registro na base de dados.'
 		ROLLBACK
 	END	
 	ELSE
 	BEGIN
-		Select * From DB_LOKANDO..TBVEICLOK 
+		Select * From DBLOKANDO..TBVEICLOK 
 			INNER JOIN TBLOCLOK ON VCCODLCDLOK = LCIDLOCLOK
 		where VCSITLOK <> 'I' order by VCCODLCDLOK desc
 		COMMIT

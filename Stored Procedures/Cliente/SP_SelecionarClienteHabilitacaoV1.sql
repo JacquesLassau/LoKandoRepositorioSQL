@@ -1,4 +1,4 @@
-USE [DB_LOKANDO]
+USE [DBLOKANDO]
 GO
 /****** Object:  StoredProcedure [dbo].[SP_SelecionarClienteHabilitacaoV1]    Script Date: 01/08/2019 09:10:18 ******/
 SET ANSI_NULLS ON
@@ -15,14 +15,14 @@ CREATE PROCEDURE [dbo].[SP_SelecionarClienteHabilitacaoV1]
 AS
 BEGIN
 	BEGIN TRAN 
-	IF NOT EXISTS (Select CLHABILLOK From DB_LOKANDO..TBCLIENTLOK With(nolock) Where CLHABILLOK = @CLHABILLOK And CLSITLOK <> 'I')
+	IF NOT EXISTS (Select CLHABILLOK From DBLOKANDO..TBCLIENTLOK With(nolock) Where CLHABILLOK = @CLHABILLOK And CLSITLOK <> 'I')
 	BEGIN			
 		PRINT 'Habilitação do cliente inválida. Não foi possível realizar a consulta.'
 		ROLLBACK
 	END	
 	ELSE
 	BEGIN
-		Select * from  DB_LOKANDO..TBCLIENTLOK With(nolock) Where CLHABILLOK = @CLHABILLOK;
+		Select * from  DBLOKANDO..TBCLIENTLOK With(nolock) Where CLHABILLOK = @CLHABILLOK;
 		PRINT 'Cliente foi selecionado com sucesso.'
 		COMMIT
 	END

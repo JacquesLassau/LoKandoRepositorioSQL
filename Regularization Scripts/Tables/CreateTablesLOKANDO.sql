@@ -1,4 +1,4 @@
-USE DB_LOKANDO
+USE DBLOKANDO
 
 IF EXISTS (Select O.name From SYSOBJECTS O with(nolock) where name = 'TBUSULOK')
 BEGIN			
@@ -17,27 +17,6 @@ BEGIN
 	    CONSTRAINT TBUSULOK_CK_01 CHECK (USSITLOK = 'A' OR USSITLOK = 'I' OR USSITLOK = 'B') -- Ativo, Inativo, Bloqueado	
 	)
 	PRINT 'Criada a tabela TBUSULOK.'
-END
-
-IF EXISTS (Select O.name From SYSOBJECTS O with(nolock) where name = 'TBTOKENLOK')
-BEGIN			
-	PRINT 'Tabela já existe na base de dados. Não é possível recriar a tabela TBTOKENLOK.'	
-END
-ELSE
-BEGIN
-	CREATE TABLE TBTOKENLOK(
-		TOKENLOK varchar(100) NOT NULL,
-	    TKDTGERALOK datetime NULL,
-	    TKORIGEMLOK varchar(100) NULL,
-	    TKDESTINOLOK varchar(100) NULL,
-		TKDTUTILLOK datetime NULL,	
-		TKUTILUSULOK int NULL,	
-		TKRTNLOK varchar(8000) NULL,
-		TKVALIDLOK datetime NULL,	
-		CONSTRAINT TBTOKENLOK_PK PRIMARY KEY CLUSTERED (TOKENLOK),
-		CONSTRAINT TBTOKENLOK_FK_01 FOREIGN KEY (TKUTILUSULOK) REFERENCES TBUSULOK(USIDUSU)		
-	)
-	PRINT 'Criada a tabela TBTOKENLOK.' 
 END
 
 IF EXISTS (Select O.name From SYSOBJECTS O with(nolock) where name = 'TBATNDLOK')

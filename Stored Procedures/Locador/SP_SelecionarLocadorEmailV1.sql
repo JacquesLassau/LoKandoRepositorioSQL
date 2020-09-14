@@ -1,4 +1,4 @@
-USE [DB_LOKANDO]
+USE [DBLOKANDO]
 GO
 
 /****** Object:  StoredProcedure [dbo].[SP_SelecionarLocadorEmailV1]    Script Date: 27/12/2019 08:09:42 ******/
@@ -18,14 +18,14 @@ CREATE PROCEDURE [dbo].[SP_SelecionarLocadorEmailV1]
 AS
 BEGIN
 	BEGIN TRAN 
-	IF NOT EXISTS (Select LCEMAILLOK From DB_LOKANDO..TBLOCLOK With(nolock) Where LCEMAILLOK = @LCEMAILLOK And LCSITLOK <> 'I')
+	IF NOT EXISTS (Select LCEMAILLOK From DBLOKANDO..TBLOCLOK With(nolock) Where LCEMAILLOK = @LCEMAILLOK And LCSITLOK <> 'I')
 	BEGIN			
 		PRINT 'E-mail do locador inválido. Não foi possível realizar a consulta.'
 		ROLLBACK
 	END	
 	ELSE
 	BEGIN
-		Select * from  DB_LOKANDO..TBLOCLOK With(nolock) Where LCEMAILLOK = @LCEMAILLOK;
+		Select * from  DBLOKANDO..TBLOCLOK With(nolock) Where LCEMAILLOK = @LCEMAILLOK;
 		PRINT 'Locador foi selecionado com sucesso.'
 		COMMIT
 	END

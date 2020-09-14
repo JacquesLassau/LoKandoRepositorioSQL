@@ -1,4 +1,4 @@
-USE [DB_LOKANDO]
+USE [DBLOKANDO]
 GO
 /****** Object:  StoredProcedure [dbo].[SP_ListarAtendenteV1]    Script Date: 31/07/2019 05:50:00 ******/
 SET ANSI_NULLS ON
@@ -14,14 +14,14 @@ CREATE PROCEDURE [dbo].[SP_ListarAtendenteV1]
 AS
 BEGIN												
 	BEGIN TRAN 
-	IF NOT EXISTS (Select * From DB_LOKANDO..TBATNDLOK)
+	IF NOT EXISTS (Select * From DBLOKANDO..TBATNDLOK)
 	BEGIN			
 		PRINT 'Não foi possível listar atendentes. Não existe nenhum registro na base de dados.'
 		ROLLBACK
 	END	
 	ELSE
 	BEGIN
-		Select * From DB_LOKANDO..TBATNDLOK Where ATSITATLOK <> 'I';
+		Select * From DBLOKANDO..TBATNDLOK Where ATSITATLOK <> 'I';
 		COMMIT
 	END
 END

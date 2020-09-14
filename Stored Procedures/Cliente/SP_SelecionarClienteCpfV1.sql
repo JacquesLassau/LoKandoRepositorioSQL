@@ -1,4 +1,4 @@
-USE [DB_LOKANDO]
+USE [DBLOKANDO]
 GO
 /****** Object:  StoredProcedure [dbo].[SP_SelecionarClienteCpfV1]    Script Date: 01/08/2019 09:10:18 ******/
 SET ANSI_NULLS ON
@@ -15,14 +15,14 @@ CREATE PROCEDURE [dbo].SP_SelecionarClienteCpfV1
 AS
 BEGIN
 	BEGIN TRAN 
-	IF NOT EXISTS (Select CLCPFLOK From DB_LOKANDO..TBCLIENTLOK With(nolock) Where CLCPFLOK = @CLCPFLOK And CLSITLOK <> 'I')
+	IF NOT EXISTS (Select CLCPFLOK From DBLOKANDO..TBCLIENTLOK With(nolock) Where CLCPFLOK = @CLCPFLOK And CLSITLOK <> 'I')
 	BEGIN			
 		PRINT 'Cpf do cliente inválido. Não foi possível realizar a consulta.'
 		ROLLBACK
 	END	
 	ELSE
 	BEGIN
-		Select * from  DB_LOKANDO..TBCLIENTLOK With(nolock) Where CLCPFLOK = @CLCPFLOK;
+		Select * from  DBLOKANDO..TBCLIENTLOK With(nolock) Where CLCPFLOK = @CLCPFLOK;
 		PRINT 'Cliente foi selecionado com sucesso.'
 		COMMIT
 	END

@@ -1,4 +1,4 @@
-USE [DB_LOKANDO]
+USE [DBLOKANDO]
 GO
 /****** Object:  StoredProcedure [dbo].[SP_ListarClienteV1]    Script Date: 04/08/2019 16:52:00 ******/
 SET ANSI_NULLS ON
@@ -14,14 +14,14 @@ CREATE PROCEDURE [dbo].[SP_ListarClienteV1]
 AS
 BEGIN
 	BEGIN TRAN 
-	IF NOT EXISTS (Select * From DB_LOKANDO..TBCLIENTLOK)
+	IF NOT EXISTS (Select * From DBLOKANDO..TBCLIENTLOK)
 	BEGIN			
 		PRINT 'Não foi possível listar clientes. Não existe nenhum registro na base de dados.'
 		ROLLBACK
 	END	
 	ELSE
 	BEGIN
-		Select * From DB_LOKANDO..TBCLIENTLOK Where CLSITLOK <> 'I';
+		Select * From DBLOKANDO..TBCLIENTLOK Where CLSITLOK <> 'I';
 		COMMIT
 	END
 END

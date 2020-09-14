@@ -1,4 +1,4 @@
-USE [DB_LOKANDO]
+USE [DBLOKANDO]
 GO
 
 /****** Object:  StoredProcedure [dbo].[SP_CadastrarVeiculoV1]    Script Date: 24/02/2020 10:39:26 ******/
@@ -28,17 +28,17 @@ CREATE PROCEDURE [dbo].[SP_CadastrarVeiculoV1]
 AS
 BEGIN
 	BEGIN TRAN 
-	IF NOT EXISTS (Select LCIDLOCLOK From DB_LOKANDO..TBLOCLOK With(nolock) Where LCIDLOCLOK = @VCCODLCDLOK)
+	IF NOT EXISTS (Select LCIDLOCLOK From DBLOKANDO..TBLOCLOK With(nolock) Where LCIDLOCLOK = @VCCODLCDLOK)
 	BEGIN			
 		PRINT 'Acesso Negado! Não é possível incluir um veículo sem locador no sistema!'
 		ROLLBACK
 	END
-	ELSE IF EXISTS (Select VCPLACALOK From DB_LOKANDO..TBVEICLOK With(nolock) Where VCPLACALOK = @VCPLACALOK and VCSITLOK <> 'I')
+	ELSE IF EXISTS (Select VCPLACALOK From DBLOKANDO..TBVEICLOK With(nolock) Where VCPLACALOK = @VCPLACALOK and VCSITLOK <> 'I')
 	BEGIN
 		PRINT 'Já existe um Veiculo vinculado a esta placa. Veiculo não foi incluído.'
 		ROLLBACK
 	END
-	ELSE IF EXISTS (Select VCRNVLOK From DB_LOKANDO..TBVEICLOK With(nolock) Where VCRNVLOK = @VCRNVLOK and VCSITLOK <> 'I')
+	ELSE IF EXISTS (Select VCRNVLOK From DBLOKANDO..TBVEICLOK With(nolock) Where VCRNVLOK = @VCRNVLOK and VCSITLOK <> 'I')
 	BEGIN
 		PRINT 'Já existe um veículo vinculado a este RENAVAM. Veículo não foi incluído.'
 		ROLLBACK

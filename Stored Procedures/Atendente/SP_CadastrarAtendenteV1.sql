@@ -1,4 +1,4 @@
-USE [DB_LOKANDO]
+USE [DBLOKANDO]
 GO
 /****** Object:  StoredProcedure [dbo].[SP_CadastrarAtendenteV1]    Script Date: 31/07/2019 05:48:53 ******/
 SET ANSI_NULLS ON
@@ -17,20 +17,20 @@ CREATE PROCEDURE [dbo].[SP_CadastrarAtendenteV1]
 AS
 BEGIN
 	BEGIN TRAN	
-	IF NOT EXISTS (Select USEMAILLOK From DB_LOKANDO..TBUSULOK With(nolock) Where USEMAILLOK = @ATEMAILLOK)
+	IF NOT EXISTS (Select USEMAILLOK From DBLOKANDO..TBUSULOK With(nolock) Where USEMAILLOK = @ATEMAILLOK)
 	BEGIN			
 		PRINT 'Acesso Negado! Não é possível incluir um atendente sem e-mail no sistema!'
 		ROLLBACK
 	END
-	ELSE IF EXISTS (Select ATEMAILLOK From DB_LOKANDO..TBATNDLOK With(nolock) Where ATEMAILLOK = @ATEMAILLOK And ATSITATLOK <> 'I')
+	ELSE IF EXISTS (Select ATEMAILLOK From DBLOKANDO..TBATNDLOK With(nolock) Where ATEMAILLOK = @ATEMAILLOK And ATSITATLOK <> 'I')
 	BEGIN
 		PRINT 'Já existe um atendente vinculado a este e-mail. Atendente não foi incluído.'		
 		ROLLBACK
 	END
 	ELSE
 	BEGIN
-		declare @IDUSUATEND int = (Select USIDUSU From DB_LOKANDO..TBUSULOK With(nolock) Where USEMAILLOK = @ATEMAILLOK);		 		
-		Insert Into DB_LOKANDO..TBATNDLOK Values (@IDUSUATEND, @ATNOMELOK, @ATEMAILLOK, @ATSITATLOK, GETDATE());
+		declare @IDUSUATEND int = (Select USIDUSU From DBLOKANDO..TBUSULOK With(nolock) Where USEMAILLOK = @ATEMAILLOK);		 		
+		Insert Into DBLOKANDO..TBATNDLOK Values (@IDUSUATEND, @ATNOMELOK, @ATEMAILLOK, @ATSITATLOK, GETDATE());
 		PRINT 'Atendente foi incluído com sucesso.'
 		COMMIT
 	END
