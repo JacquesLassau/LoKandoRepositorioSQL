@@ -1,0 +1,70 @@
+/*
+*	Script de regularização do dia 10/12/2020
+*	Limpeza de registros da tabela de alugueis
+*	------------------------------------------
+*	
+*	1. Identifica registros criados antes da data e hora atual
+*	2. Remove registros inativos ou anterior a 10 anos
+*	3. Definir o valor mínimo no aluguel para os registros
+*	--------------------------------------------------------------
+*
+*/
+
+DECLARE @VlrMinimoAluguelVeiculo DECIMAL(9,2) = 55
+DECLARE @DataHora DATETIME = GETDATE()
+DECLARE @StatusInativo CHAR = 'I'
+
+IF OBJECT_ID('tempdb..#TEMPTBALUGUELLOK') IS NOT NULL DROP TABLE #TEMPTBALUGUELLOK
+CREATE TABLE #TEMPTBALUGUELLOK (
+	ALCODALULOK int,
+	ALCODATELOK int,
+	ALCODCLILOK int,
+    ALCODLOCLOK int,    
+	ALCODVEILOK int, 
+	ALENDATENLOK varchar(100),
+	ALENDENTRLOK varchar(100),
+    ALDTINILOK datetime,
+	ALDTFIMLOK datetime,
+	ALVLRTTLOK decimal(9,2),
+	ALSITLOK char(1),
+    ALHRREG datetime,	
+)
+
+BEGIN
+	BEGIN TRAN
+	INSERT INTO #TEMPTBALUGUELLOK 
+		SELECT * FROM TBALUGUELLOK WHERE ALHRREG < @DataHora 
+	
+	UPDATE #TEMPTBALUGUELLOK SET ALVLRTTLOK = CASE WHEN ALVLRTTLOK < @VlrMinimoAluguelVeiculo 
+		THEN @VlrMinimoAluguelVeiculo 
+	ELSE 
+		ALVLRTTLOK END
+	
+	UPDATE #TEMPTBALUGUELLOK SET ALSITLOK = CASE WHEN ALDTINILOK < DATEADD(Year, -10, GETDATE())
+		THEN @StatusInativo 
+	ELSE 
+		ALSITLOK END
+	
+	UPDATE TBALUGUELLOK SET ALVLRTTLOK = CASE WHEN ALVLRTTLOK < @VlrMinimoAluguelVeiculo 
+		THEN @VlrMinimoAluguelVeiculo 
+	ELSE 
+		ALVLRTTLOK END 
+	WHERE ALCODALULOK IN (SELECT #TEMPTBALUGUELLOK.ALCODALULOK FROM #TEMPTBALUGUELLOK,TBALUGUELLOK WHERE #TEMPTBALUGUELLOK.ALCODALULOK = TBALUGUELLOK.ALCODALULOK)
+	
+	DELETE FROM TBALUGUELLOK WHERE ALCODALULOK IN 
+		(SELECT #TEMPTBALUGUELLOK.ALCODALULOK FROM #TEMPTBALUGUELLOK,TBALUGUELLOK 
+			WHERE (#TEMPTBALUGUELLOK.ALSITLOK = 'I' OR #TEMPTBALUGUELLOK.ALDTINILOK < DATEADD(Year, -10, GETDATE())) AND (#TEMPTBALUGUELLOK.ALCODALULOK = TBALUGUELLOK.ALCODALULOK))
+	
+	DROP TABLE #TEMPTBALUGUELLOK
+
+	IF(@@ERROR > 0)
+	BEGIN		
+		ROLLBACK		
+		PRINT 'Problemas na execução do script. A transação foi cancelada'
+	END
+	ELSE
+	BEGIN		
+		COMMIT
+		PRINT 'O script foi executado com sucesso.'
+	END
+END
